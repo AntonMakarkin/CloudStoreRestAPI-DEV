@@ -28,6 +28,7 @@ class UserController {
 
             const accessToken:string = tokens.accessToken;
 
+            res.cookie('accessToken', accessToken, { maxAge: 1200000, httpOnly: true });
             res.cookie('refreshToken', refreshToken, { maxAge: 2592000000, httpOnly: true });
 
             const fileService = new FileService;
@@ -64,8 +65,10 @@ class UserController {
             await tokenUser.saveRefreshToken(user._id, refreshToken);
 
             const accessToken = tokens.accessToken;
-
+            
+            res.cookie('accessToken', accessToken, { maxAge: 1200000, httpOnly: true });
             res.cookie('refreshToken', refreshToken, { maxAge: 2592000000, httpOnly: true });
+            
             return res.json({ user, accessToken });
         } catch (err) {
             console.error(err);
